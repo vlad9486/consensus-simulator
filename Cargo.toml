@@ -1,0 +1,8 @@
+[package]
+name = "consensus-simulator"
+version = "0.1.0"
+edition = "2018"
+
+[[bin]]
+path = "src/bin/example.rs"
+name = "example"
