@@ -1,6 +1,6 @@
 fn main() {
     use std::time::Duration;
-    use consensus_simulator::{Simulator, Network, Node, NodeEvent, Effect};
+    use consensus_simulator::{Simulator, Network, TenderbakeNode};
 
     struct DefaultNetwork;
 
@@ -18,24 +18,9 @@ fn main() {
         }
     }
 
-    struct DummyNode;
-
-    #[derive(Debug, Clone)]
-    struct DummyMessage;
-
-    impl Node for DummyNode {
-        type Message = DummyMessage;
-
-        fn handle_event(
-            &mut self,
-            time: Duration,
-            event: &NodeEvent<Self::Message>,
-        ) -> Vec<Effect<Self::Message>> {
-            let _ = (self, time, event);
-            Vec::new()
-        }
-    }
-
-    let simulator = Simulator::new((0..16).map(|_| DummyNode), DefaultNetwork);
+    let simulator = Simulator::new(
+        (0..16).map(|_id| TenderbakeNode::new()),
+        DefaultNetwork,
+    );
     simulator.run(1000);
 }
