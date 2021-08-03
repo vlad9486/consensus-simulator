@@ -14,4 +14,6 @@ mod simulator;
 pub use self::simulator::Simulator;
 
 mod algorithms;
-pub use self::algorithms::{LeaderElectionNode, TenderbakeNode};
+pub use self::algorithms::leader_election::LeaderElectionNode;
+#[cfg(feature = "tenderbake")]
+pub use self::algorithms::tenderbake::{TenderbakeNode, TenderbakeConfig};

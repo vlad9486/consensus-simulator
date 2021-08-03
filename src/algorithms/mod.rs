@@ -1,5 +1,4 @@
-mod leader_election;
-pub use self::leader_election::LeaderElectionNode;
+pub mod leader_election;
 
-mod tenderbake;
-pub use self::tenderbake::TenderbakeNode;
+#[cfg(feature = "tenderbake")]
+pub mod tenderbake;

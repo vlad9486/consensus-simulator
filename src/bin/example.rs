@@ -1,6 +1,6 @@
 fn main() {
     use std::time::Duration;
-    use consensus_simulator::{Simulator, Network, TenderbakeNode};
+    use consensus_simulator::{Simulator, Network, TenderbakeNode, TenderbakeConfig};
 
     struct DefaultNetwork;
 
@@ -14,13 +14,13 @@ fn main() {
             receiver_node_id: usize,
         ) -> Duration {
             let _ = (self, this, iteration, effect_index, sender_node_id, receiver_node_id);
-            Duration::from_millis(100)
+            let r = rand::Rng::gen::<u8>(&mut rand::thread_rng()) / 6;
+            Duration::from_millis(100 + (r as u64))
         }
     }
 
-    let simulator = Simulator::new(
-        (0..16).map(|_id| TenderbakeNode::new()),
-        DefaultNetwork,
-    );
+    let seed = 0x123456;
+    let configs = TenderbakeConfig::new(16, Duration::from_secs(3), seed);
+    let simulator = Simulator::new(configs.map(TenderbakeNode::new), DefaultNetwork);
     simulator.run(1000);
 }
